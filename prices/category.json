@@ -1,0 +1,9 @@
+{
+  "name": "Prices",
+  "icon": "PR",
+  "priority": 17,
+  "cta": {
+    "label": "Request assistance",
+    "service": "local price research"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "name": "Business",
+  "icon": "BU",
+  "priority": 15,
+  "cta": {
+    "label": "Request assistance",
+    "service": "local business coordination"
+  }
+}

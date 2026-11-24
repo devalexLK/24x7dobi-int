@@ -1,0 +1,1827 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sri Lanka 10-Year Tourism & Travel Demand Intelligence Report</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Chart.js & Annotation Plugin -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
+  <!-- Google Fonts: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            navy: {
+              950: '#070b14',
+              900: '#0b1120',
+              850: '#0f172a',
+              800: '#131c31',
+              750: '#19243e',
+              700: '#1e293b',
+            }
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    /* Custom scrollbar for dark executive theme */
+    ::-webkit-scrollbar {
+      width: 7px;
+      height: 7px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0b1120;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #1e293b;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #334155;
+    }
+  </style>
+</head>
+<body class="bg-[#0b1120] text-slate-200 font-sans antialiased selection:bg-cyan-500 selection:text-slate-950">
+
+  <!-- Toast Notification Container (Replaces alert()) -->
+  <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+  <!-- Sticky Executive Header -->
+  <header class="sticky top-0 z-40 bg-[#0b1120]/95 backdrop-blur-md border-b border-slate-800/90 shadow-xl">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+      <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+        <!-- Brand & Title -->
+        <div>
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-[11px] font-semibold uppercase tracking-wider">
+              <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
+              Executive Macro &amp; Search Intelligence
+            </span>
+            <span class="text-[11px] font-mono text-slate-400">SLTDA • CBSL • GLOBAL SEARCH TRENDS</span>
+          </div>
+          <h1 class="text-xl sm:text-2xl lg:text-[26px] font-extrabold tracking-tight text-white leading-tight">
+            Sri Lanka 10-Year Tourism &amp; Travel Demand Intelligence Report <span class="text-cyan-400 font-mono">(2017–2026)</span>
+          </h1>
+          <p class="text-xs sm:text-sm text-slate-400 mt-0.5">
+            SLTDA Arrivals, CBSL Foreign Exchange &amp; Global Search Demand Analytics • 2017–2026
+          </p>
+        </div>
+
+        <!-- Quick Era Pills & Download CSV -->
+        <div class="flex flex-wrap items-center gap-2 shrink-0">
+          <div id="era-pills-group" class="flex flex-wrap items-center bg-[#131c31] p-1 rounded-xl border border-slate-800 gap-1" role="group" aria-label="Macro Era Selector">
+            <button type="button" data-era="FULL" class="era-pill px-3 py-1.5 rounded-lg text-xs font-semibold bg-cyan-500 text-slate-950 shadow transition cursor-pointer">
+              All 10 Years (2017–2026)
+            </button>
+            <button type="button" data-era="PRE_SHOCK" class="era-pill px-3 py-1.5 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-slate-800/70 transition cursor-pointer">
+              Pre-Shock Peak (2017–2019)
+            </button>
+            <button type="button" data-era="CRISIS" class="era-pill px-3 py-1.5 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-slate-800/70 transition cursor-pointer">
+              Crisis &amp; Pandemic (2020–2022)
+            </button>
+            <button type="button" data-era="RECOVERY" class="era-pill px-3 py-1.5 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-slate-800/70 transition cursor-pointer">
+              Post-Crisis Recovery (2023–2026)
+            </button>
+          </div>
+
+          <button id="download-csv-header" type="button" class="px-3.5 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs sm:text-sm transition flex items-center gap-1.5 shadow-lg shadow-emerald-500/10 cursor-pointer">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+            Download CSV
+          </button>
+        </div>
+      </div>
+
+      <!-- Global Interactive Filter Bar -->
+      <div class="mt-4 pt-3.5 border-t border-slate-800/80 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+        <!-- 1. Source Market Selector -->
+        <div>
+          <label for="filter-market" class="block text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1">
+            1. Source Market (Origin Country)
+          </label>
+          <select id="filter-market" class="w-full rounded-xl bg-[#131c31] text-slate-100 text-xs sm:text-sm font-medium px-3 py-2 border border-slate-700/80 focus:outline-none focus:ring-2 focus:ring-cyan-500 cursor-pointer">
+            <option value="ALL">All Markets (Global Total • 100%)</option>
+            <option value="INDIA">India (~21.5% Share • #1 Origin)</option>
+            <option value="UK">United Kingdom (~9.8% Share)</option>
+            <option value="RUSSIA">Russia (~8.4% Share)</option>
+            <option value="GERMANY">Germany (~6.5% Share)</option>
+            <option value="CHINA">China (~6.2% Share)</option>
+            <option value="AUSTRALIA">Australia (~4.8% Share)</option>
+            <option value="FRANCE">France (~4.6% Share)</option>
+            <option value="USA">United States (~3.8% Share)</option>
+            <option value="MALDIVES">Maldives (~3.4% Share)</option>
+          </select>
+        </div>
+
+        <!-- 2. Tourism Segment / Demand Category -->
+        <div>
+          <label for="filter-segment" class="block text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1">
+            2. Tourism Segment / Demand Category
+          </label>
+          <select id="filter-segment" class="w-full rounded-xl bg-[#131c31] text-slate-100 text-xs sm:text-sm font-medium px-3 py-2 border border-slate-700/80 focus:outline-none focus:ring-2 focus:ring-cyan-500 cursor-pointer">
+            <option value="ALL">All Segments (Composite Demand)</option>
+            <option value="CULTURAL">Cultural &amp; Heritage (Sigiriya / Kandy)</option>
+            <option value="BEACH">Beach &amp; Surf (South &amp; East Coast)</option>
+            <option value="HILL">Hill Country &amp; Scenic Rail (Ella / Nuwara Eliya)</option>
+            <option value="WILDLIFE">Wildlife &amp; Eco-Safari (Yala / Wilpattu)</option>
+            <option value="WELLNESS">Wellness &amp; Ayurveda Retreats</option>
+          </select>
+        </div>
+
+        <!-- 3. Seasonality Filter -->
+        <div>
+          <label for="filter-seasonality" class="block text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1">
+            3. Dual-Monsoon Seasonality Filter
+          </label>
+          <select id="filter-seasonality" class="w-full rounded-xl bg-[#131c31] text-slate-100 text-xs sm:text-sm font-medium px-3 py-2 border border-slate-700/80 focus:outline-none focus:ring-2 focus:ring-cyan-500 cursor-pointer">
+            <option value="FULL_YEAR">Full Year (Jan–Dec • 12 Months)</option>
+            <option value="WEST_SOUTH">West / South Peak (Dec–Mar • ~44% Share)</option>
+            <option value="EAST_COAST">East Coast Peak (May–Sep • ~36% Share)</option>
+            <option value="SHOULDER">Shoulder Months (Apr &amp; Oct–Nov • ~20% Share)</option>
+          </select>
+        </div>
+
+        <!-- Active Filter Status & Reset -->
+        <div class="flex items-end justify-between gap-2 bg-[#131c31]/70 rounded-xl px-3.5 py-2 border border-slate-800">
+          <div class="min-w-0">
+            <span class="block text-[10px] font-semibold uppercase tracking-wider text-cyan-400">Active Scope</span>
+            <span id="active-scope-label" class="block text-xs font-medium text-slate-200 truncate">All Markets • All Segments • 2017–2026</span>
+          </div>
+          <button id="reset-all-btn" type="button" class="shrink-0 px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-xs font-semibold transition cursor-pointer">
+            Reset
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Dashboard Content -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-7 space-y-7">
+
+    <!-- Section 1: 4 Executive KPI Cards -->
+    <section aria-label="Executive Tourism KPIs" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+      <!-- KPI 1: Total / Filtered Tourist Arrivals -->
+      <div class="bg-[#131c31] rounded-2xl p-5 border border-slate-800/90 shadow-lg relative overflow-hidden group hover:border-cyan-500/40 transition">
+        <div class="absolute -right-6 -top-6 w-24 h-24 rounded-full bg-cyan-500/5 group-hover:bg-cyan-500/10 transition pointer-events-none"></div>
+        <div class="flex items-center justify-between mb-2">
+          <span id="kpi1-title" class="text-xs font-semibold uppercase tracking-wider text-slate-400">Cumulative Arrivals (10-Yr)</span>
+          <span class="p-2 rounded-xl bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          </span>
+        </div>
+        <div class="flex items-baseline gap-2">
+          <span id="kpi1-value" class="text-2xl sm:text-3xl font-extrabold text-white font-mono tracking-tight">16.21M</span>
+          <span id="kpi1-subunit" class="text-xs font-medium text-slate-400">tourists</span>
+        </div>
+        <div class="mt-3 pt-2.5 border-t border-slate-800/80 flex items-center justify-between text-xs">
+          <span id="kpi1-badge" class="inline-flex items-center px-2 py-0.5 rounded-md font-mono font-semibold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+            2025–26 &gt; 2018 Peak
+          </span>
+          <span id="kpi1-meta" class="text-slate-400 font-mono">2026: 2.52M</span>
+        </div>
+      </div>
+
+      <!-- KPI 2: Foreign Exchange Earnings -->
+      <div class="bg-[#131c31] rounded-2xl p-5 border border-slate-800/90 shadow-lg relative overflow-hidden group hover:border-emerald-500/40 transition">
+        <div class="absolute -right-6 -top-6 w-24 h-24 rounded-full bg-emerald-500/5 group-hover:bg-emerald-500/10 transition pointer-events-none"></div>
+        <div class="flex items-center justify-between mb-2">
+          <span id="kpi2-title" class="text-xs font-semibold uppercase tracking-wider text-slate-400">CBSL FX Tourism Earnings</span>
+          <span class="p-2 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          </span>
+        </div>
+        <div class="flex items-baseline gap-2">
+          <span id="kpi2-value" class="text-2xl sm:text-3xl font-extrabold text-white font-mono tracking-tight">$26.09B</span>
+          <span id="kpi2-subunit" class="text-xs font-medium text-slate-400">USD total</span>
+        </div>
+        <div class="mt-3 pt-2.5 border-t border-slate-800/80 flex items-center justify-between text-xs">
+          <span id="kpi2-badge" class="inline-flex items-center px-2 py-0.5 rounded-md font-mono font-semibold bg-amber-500/15 text-amber-300 border border-amber-500/30">
+            $1,610 / Tourist Yield
+          </span>
+          <span id="kpi2-meta" class="text-slate-400 font-mono">Avg $160/day</span>
+        </div>
+      </div>
+
+      <!-- KPI 3: Global Search Demand Index -->
+      <div class="bg-[#131c31] rounded-2xl p-5 border border-slate-800/90 shadow-lg relative overflow-hidden group hover:border-violet-500/40 transition">
+        <div class="absolute -right-6 -top-6 w-24 h-24 rounded-full bg-violet-500/5 group-hover:bg-violet-500/10 transition pointer-events-none"></div>
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Global Search Demand Index</span>
+          <span class="p-2 rounded-xl bg-violet-500/10 text-violet-400 border border-violet-500/20">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+          </span>
+        </div>
+        <div class="flex items-baseline gap-2">
+          <span id="kpi3-value" class="text-2xl sm:text-3xl font-extrabold text-white font-mono tracking-tight">89.4</span>
+          <span class="text-xs font-mono text-violet-400 font-semibold">/ 100 idx</span>
+        </div>
+        <div class="mt-3 pt-2.5 border-t border-slate-800/80 flex items-center justify-between gap-2 text-xs">
+          <span id="kpi3-badge" class="inline-flex items-center px-2 py-0.5 rounded-md font-semibold bg-violet-500/15 text-violet-300 border border-violet-500/30 truncate">
+            🔥 Sigiriya Rock (98)
+          </span>
+          <span id="kpi3-meta" class="text-emerald-400 font-mono font-semibold shrink-0">+28.4% YoY</span>
+        </div>
+      </div>
+
+      <!-- KPI 4: Accommodation Occupancy & Avg Stay -->
+      <div class="bg-[#131c31] rounded-2xl p-5 border border-slate-800/90 shadow-lg relative overflow-hidden group hover:border-amber-500/40 transition">
+        <div class="absolute -right-6 -top-6 w-24 h-24 rounded-full bg-amber-500/5 group-hover:bg-amber-500/10 transition pointer-events-none"></div>
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Occupancy &amp; Avg Length of Stay</span>
+          <span class="p-2 rounded-xl bg-amber-500/10 text-amber-400 border border-amber-500/20">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+          </span>
+        </div>
+        <div class="flex items-baseline gap-2">
+          <span id="kpi4-value" class="text-2xl sm:text-3xl font-extrabold text-white font-mono tracking-tight">56.8%</span>
+          <span id="kpi4-stay" class="text-xs font-mono text-amber-400 font-semibold">• 10.7 Nights</span>
+        </div>
+        <div class="mt-3 pt-2.5 border-t border-slate-800/80 flex items-center justify-between text-xs">
+          <span class="inline-flex items-center px-2 py-0.5 rounded-md font-mono font-semibold bg-slate-800 text-slate-300 border border-slate-700">
+            4,685+ SLTDA Units
+          </span>
+          <span id="kpi4-rooms" class="text-slate-400 font-mono">56,400 Rooms</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 2: Primary Charts Row (2-Column Grid) -->
+    <section class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      <!-- Chart 1: 10-Year Arrivals & USD Revenue Trajectory -->
+      <div class="lg:col-span-7 bg-[#131c31] rounded-2xl p-6 border border-slate-800/90 shadow-lg flex flex-col justify-between">
+        <div>
+          <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-2 mb-4">
+            <div>
+              <h2 class="text-base sm:text-lg font-bold text-white">10-Year Tourist Arrivals &amp; USD FX Revenue Trajectory (2017–2026)</h2>
+              <p id="chart1-subtitle" class="text-xs text-slate-400 mt-0.5">SLTDA annual arrivals (bars) vs. CBSL tourism receipts in USD Millions (line) with structural shock markers</p>
+            </div>
+            <div class="flex flex-wrap items-center gap-1.5 text-[11px] font-mono shrink-0">
+              <span class="px-2 py-0.5 rounded bg-cyan-500/15 text-cyan-300 border border-cyan-500/30">2018 Peak: 2.33M</span>
+              <span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">2025–26 Record</span>
+            </div>
+          </div>
+          <div class="relative h-80 sm:h-[340px] w-full">
+            <canvas id="arrivalsRevenueChart"></canvas>
+          </div>
+        </div>
+        <div class="mt-4 pt-3 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-2 text-[11px] text-slate-400">
+          <span>Key Shocks: Apr 2019 Easter Attacks • Mar 2020–21 COVID-19 Closure • 2022 Sovereign FX/Fuel Crisis</span>
+          <span class="font-mono text-cyan-400">2026 Annualized from Jan–Sep (1.69M)</span>
+        </div>
+      </div>
+
+      <!-- Chart 2: Top Source Markets Evolution -->
+      <div class="lg:col-span-5 bg-[#131c31] rounded-2xl p-6 border border-slate-800/90 shadow-lg flex flex-col justify-between">
+        <div>
+          <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-2 mb-4">
+            <div>
+              <h2 class="text-base sm:text-lg font-bold text-white">Top Source Markets Evolution (2017–2026)</h2>
+              <p id="chart2-subtitle" class="text-xs text-slate-400 mt-0.5">Market share &amp; volume shifts across Sri Lanka’s top 8 origin countries</p>
+            </div>
+            <button id="toggle-market-mode" type="button" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-mono font-semibold text-cyan-400 border border-slate-700 transition cursor-pointer shrink-0">
+              View: Stacked Volume
+            </button>
+          </div>
+          <div class="relative h-80 sm:h-[340px] w-full">
+            <canvas id="sourceMarketsChart"></canvas>
+          </div>
+        </div>
+        <div class="mt-4 pt-3 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-slate-400">
+          <span>India leads recovery (20–24% share); Russia &amp; UK anchor European demand.</span>
+          <span class="font-mono text-amber-400">SLTDA Origin Stats</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 3: Most Demanded Searches & Destination Intelligence Section -->
+    <section class="bg-[#131c31] rounded-2xl p-6 border border-slate-800/90 shadow-lg space-y-6">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-3 border-b border-slate-800 pb-4">
+        <div>
+          <div class="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-md bg-violet-500/15 border border-violet-500/30 text-violet-300 text-[11px] font-semibold uppercase tracking-wider mb-1.5">
+            Global Travel Search Intent &amp; Experience Demand (2017–2026)
+          </div>
+          <h2 class="text-lg sm:text-xl font-bold text-white">Top 10 Most Searched Sri Lanka Destinations, Experiences &amp; Travel Queries</h2>
+          <p class="text-xs sm:text-sm text-slate-400 mt-0.5">
+            Click any ranked search card or bar below to inspect its 12-month dual-monsoon search curve, top searching nations, and spend tier.
+          </p>
+        </div>
+        <div class="flex items-center gap-2 text-xs font-mono text-slate-400 shrink-0">
+          <span class="px-2.5 py-1 rounded-lg bg-[#0b1120] border border-slate-800 text-emerald-400">Fastest Rising: Pekoe Trail (+48% YoY)</span>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <!-- Left 6 Cols: Ranked Horizontal Bar Chart -->
+        <div class="lg:col-span-6 flex flex-col justify-between bg-[#0b1120]/70 rounded-xl p-4 border border-slate-800/80">
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="text-sm font-bold text-slate-200">Global Search Volume Index (0–100 Scale)</h3>
+            <span class="text-[11px] font-mono text-slate-400">Click bar to inspect query</span>
+          </div>
+          <div class="relative h-[410px] w-full">
+            <canvas id="searchDemandBarChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Right 6 Cols: Interactive Query Deep-Dive Inspector + Top 10 Cards Grid -->
+        <div class="lg:col-span-6 flex flex-col justify-between gap-4">
+          <!-- Active Search Query Inspector Card -->
+          <div id="search-inspector-panel" class="bg-gradient-to-br from-[#19243e] to-[#11192e] rounded-xl p-4 border border-violet-500/30 shadow-md">
+            <div class="flex flex-wrap items-start justify-between gap-2">
+              <div>
+                <div class="flex items-center gap-2">
+                  <span id="insp-rank" class="px-2 py-0.5 rounded bg-violet-500 text-white font-mono text-xs font-bold">#1</span>
+                  <span id="insp-category" class="text-[11px] font-semibold uppercase tracking-wider text-cyan-400">Cultural &amp; Heritage</span>
+                </div>
+                <h3 id="insp-title" class="text-base sm:text-lg font-bold text-white mt-1">Sigiriya Rock Fortress &amp; Lion's Rock</h3>
+              </div>
+              <div class="text-right font-mono">
+                <div class="text-lg font-extrabold text-violet-300" id="insp-index">Index: 98 / 100</div>
+                <div class="text-xs font-semibold text-emerald-400" id="insp-growth">+24% YoY Search Growth</div>
+              </div>
+            </div>
+
+            <p id="insp-desc" class="text-xs text-slate-300 mt-2 leading-relaxed">
+              Sri Lanka’s #1 UNESCO World Heritage icon. Drives year-round international itinerary planning, peaking in Jan–Mar and Jul–Aug European/Indian holiday windows.
+            </p>
+
+            <div class="grid grid-cols-3 gap-2.5 mt-3 pt-3 border-t border-slate-700/70 text-xs">
+              <div>
+                <span class="block text-[10px] uppercase text-slate-400">Peak Search Months</span>
+                <span id="insp-peaks" class="font-mono font-semibold text-amber-300">Jan–Mar, Jul–Aug</span>
+              </div>
+              <div>
+                <span class="block text-[10px] uppercase text-slate-400">Top Origin Markets</span>
+                <span id="insp-origins" class="font-medium text-slate-200">UK, India, Germany, France</span>
+              </div>
+              <div>
+                <span class="block text-[10px] uppercase text-slate-400">Avg Tourist Spend Tier</span>
+                <span id="insp-spend" class="font-mono font-semibold text-emerald-400">$175–$210 / day</span>
+              </div>
+            </div>
+
+            <!-- Mini Monthly Search Curve for Selected Query -->
+            <div class="mt-3 pt-2 border-t border-slate-800">
+              <div class="flex items-center justify-between text-[11px] text-slate-400 mb-1">
+                <span>Monthly Global Search Seasonality Curve (Jan–Dec)</span>
+                <span class="font-mono text-violet-400">Normalized 0–100</span>
+              </div>
+              <div class="relative h-28 w-full">
+                <canvas id="queryMonthlyChart"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- Interactive 10 Search Query Pills/Cards Selector -->
+          <div>
+            <div class="flex items-center justify-between text-xs text-slate-400 mb-2">
+              <span class="font-semibold text-slate-300">Select Any Top-10 Search Query to Inspect:</span>
+              <span class="font-mono text-[11px]">10 Tracked Clusters</span>
+            </div>
+            <div id="search-cards-list" class="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-52 overflow-y-auto pr-1">
+              <!-- Populated dynamically via JS -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 4: Dual-Monsoon Seasonality & SLTDA Regional Accommodation Capacity -->
+    <section class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      <!-- Left 7 Cols: Monthly Dual-Monsoon Arrivals & Search Heatmap/Chart -->
+      <div class="lg:col-span-7 bg-[#131c31] rounded-2xl p-6 border border-slate-800/90 shadow-lg flex flex-col justify-between">
+        <div>
+          <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-2 mb-4">
+            <div>
+              <h2 class="text-base sm:text-lg font-bold text-white">Dual-Monsoon Seasonality: Monthly Arrivals &amp; Search Demand (Jan–Dec)</h2>
+              <p class="text-xs text-slate-400 mt-0.5">Illustrating Sri Lanka’s two distinct coastal peaks: West/South (Dec–Mar) vs. East Coast (May–Sep)</p>
+            </div>
+          </div>
+          <div class="relative h-72 sm:h-80 w-full">
+            <canvas id="monthlySeasonalityChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Seasonal Window Badges -->
+        <div class="mt-4 pt-3 border-t border-slate-800/80 grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs">
+          <div class="bg-[#0b1120] rounded-xl p-2.5 border border-cyan-500/20">
+            <span class="block font-bold text-cyan-400">West &amp; South Peak (Dec–Mar)</span>
+            <span class="text-slate-400 text-[11px]">~44% of annual arrivals • Galle, Mirissa, Bentota, Ella</span>
+          </div>
+          <div class="bg-[#0b1120] rounded-xl p-2.5 border border-amber-500/20">
+            <span class="block font-bold text-amber-400">East Coast Peak (May–Sep)</span>
+            <span class="text-slate-400 text-[11px]">~36% of annual arrivals • Arugam Bay, Trincomalee, Pasikudah</span>
+          </div>
+          <div class="bg-[#0b1120] rounded-xl p-2.5 border border-slate-700">
+            <span class="block font-bold text-slate-300">Shoulder Windows (Apr, Oct–Nov)</span>
+            <span class="text-slate-400 text-[11px]">~20% share • Cultural Triangle, Wellness &amp; MICE value deals</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right 5 Cols: SLTDA Accommodation Supply & 10-Year Occupancy Trend -->
+      <div class="lg:col-span-5 bg-[#131c31] rounded-2xl p-6 border border-slate-800/90 shadow-lg flex flex-col justify-between">
+        <div>
+          <div class="mb-4">
+            <h2 class="text-base sm:text-lg font-bold text-white">SLTDA Registered Accommodation &amp; Occupancy (2017–2026)</h2>
+            <p class="text-xs text-slate-400 mt-0.5">Formal room inventory expansion (~56,400 rooms across 4,685+ establishments) &amp; annual occupancy %</p>
+          </div>
+
+          <!-- Occupancy Rate Mini Chart -->
+          <div class="relative h-44 w-full mb-4">
+            <canvas id="occupancyTrendChart"></canvas>
+          </div>
+
+          <!-- SLTDA Category Breakdown Bars -->
+          <div class="space-y-2.5 pt-2 border-t border-slate-800/80">
+            <div class="flex items-center justify-between text-xs">
+              <span class="font-semibold text-slate-300">2026 SLTDA Accommodation Inventory Breakdown</span>
+              <span class="font-mono text-cyan-400">56,400 Total Rooms</span>
+            </div>
+
+            <div class="space-y-2 text-xs">
+              <div>
+                <div class="flex justify-between text-[11px] mb-1">
+                  <span class="text-slate-300">Classified Tourist Hotels (1–5 Star • 168 units)</span>
+                  <span class="font-mono text-slate-300">17,850 rooms (31.6%)</span>
+                </div>
+                <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden">
+                  <div class="bg-cyan-500 h-2 rounded-full" style="width: 31.6%"></div>
+                </div>
+              </div>
+
+              <div>
+                <div class="flex justify-between text-[11px] mb-1">
+                  <span class="text-slate-300">Guest Houses &amp; Boutique Villas (1,890+ units)</span>
+                  <span class="font-mono text-slate-300">19,400 rooms (34.4%)</span>
+                </div>
+                <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden">
+                  <div class="bg-emerald-500 h-2 rounded-full" style="width: 34.4%"></div>
+                </div>
+              </div>
+
+              <div>
+                <div class="flex justify-between text-[11px] mb-1">
+                  <span class="text-slate-300">Homestays &amp; Bungalows (2,240+ units)</span>
+                  <span class="font-mono text-slate-300">11,650 rooms (20.7%)</span>
+                </div>
+                <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden">
+                  <div class="bg-amber-500 h-2 rounded-full" style="width: 20.7%"></div>
+                </div>
+              </div>
+
+              <div>
+                <div class="flex justify-between text-[11px] mb-1">
+                  <span class="text-slate-300">Boutique Eco-Lodges, Heritage &amp; Ayurveda (385+ units)</span>
+                  <span class="font-mono text-slate-300">7,500 rooms (13.3%)</span>
+                </div>
+                <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden">
+                  <div class="bg-violet-500 h-2 rounded-full" style="width: 13.3%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-4 pt-3 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-slate-400">
+          <span>Informal Airbnb/villa listings add ~18,000 unregistered rooms.</span>
+          <span class="font-mono text-emerald-400">2026 Occ: 69.5%</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 5: Full 10-Year Longitudinal Data Table (2017–2026) -->
+    <section class="bg-[#131c31] rounded-2xl border border-slate-800/90 shadow-lg overflow-hidden">
+      <div class="p-6 border-b border-slate-800 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+        <div>
+          <h2 class="text-base sm:text-lg font-bold text-white">10-Year Longitudinal Sri Lanka Tourism &amp; Search Ledger (2017–2026)</h2>
+          <p class="text-xs text-slate-400 mt-0.5">Official SLTDA arrival counts, CBSL foreign exchange receipts, yield metrics, occupancy, and dominant search trends.</p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-3">
+          <div class="relative">
+            <input type="text" id="table-search-input" placeholder="Filter year, market, trend, regime..." class="pl-9 pr-3.5 py-2 rounded-xl bg-[#0b1120] border border-slate-700 text-xs sm:text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 w-60 sm:w-64" />
+            <svg class="w-4 h-4 text-slate-500 absolute left-3 top-2.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+          </div>
+
+          <button id="download-csv-table" type="button" class="px-3.5 py-2 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs sm:text-sm transition flex items-center gap-1.5 cursor-pointer">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+            Export CSV
+          </button>
+        </div>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+          <thead>
+            <tr class="bg-[#0b1120]/90 border-b border-slate-800 text-[11px] font-bold uppercase tracking-wider text-slate-400">
+              <th class="py-3.5 px-4 cursor-pointer hover:text-cyan-400 select-none" data-sort="year">Year ↕</th>
+              <th class="py-3.5 px-4 text-right cursor-pointer hover:text-cyan-400 select-none" data-sort="arrivals">Arrivals ↕</th>
+              <th class="py-3.5 px-4 text-right cursor-pointer hover:text-cyan-400 select-none" data-sort="yoyPct">YoY % ↕</th>
+              <th class="py-3.5 px-4 text-right cursor-pointer hover:text-cyan-400 select-none" data-sort="revenueM">Revenue ($M) ↕</th>
+              <th class="py-3.5 px-4 text-right cursor-pointer hover:text-cyan-400 select-none" data-sort="dailySpend">Daily Spend ↕</th>
+              <th class="py-3.5 px-4 text-right cursor-pointer hover:text-cyan-400 select-none" data-sort="avgNights">Avg Nights ↕</th>
+              <th class="py-3.5 px-4 cursor-pointer hover:text-cyan-400 select-none" data-sort="topMarket">Top Source Market ↕</th>
+              <th class="py-3.5 px-4 text-right cursor-pointer hover:text-cyan-400 select-none" data-sort="occupancy">Hotel Occ % ↕</th>
+              <th class="py-3.5 px-4">Top Search Trend</th>
+              <th class="py-3.5 px-4">Macro Regime &amp; Shock Driver</th>
+            </tr>
+          </thead>
+          <tbody id="longitudinal-table-body" class="divide-y divide-slate-800/70 text-xs sm:text-sm">
+            <!-- Populated dynamically via JS -->
+          </tbody>
+        </table>
+      </div>
+
+      <div class="px-6 py-3 bg-[#0b1120]/80 border-t border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs text-slate-400">
+        <span id="table-summary-footer">Showing 10 longitudinal years (2017–2026)</span>
+        <span class="font-mono text-slate-500">Sources: SLTDA Annual Statistical Reports, CBSL External Sector Data, Google Trends Global Travel Index</span>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-[#070b14] border-t border-slate-800/80 py-7 mt-10 text-xs text-slate-500">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-3">
+      <div>
+        <span class="text-slate-300 font-semibold">Sri Lanka 10-Year Tourism &amp; Travel Demand Intelligence Report (2017–2026)</span>
+        <p class="mt-0.5">Benchmarked to Sri Lanka Tourism Development Authority (SLTDA) &amp; Central Bank of Sri Lanka (CBSL) official series.</p>
+      </div>
+      <div class="font-mono text-slate-400 md:text-right">
+        <span>2026 Annualized Projection: 2,520,000 Arrivals • $3,410M FX Revenue</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Interactive Data & Chart Logic -->
+  <script>
+    /**
+     * ============================================================================
+     * 1. OFFICIAL 10-YEAR SRI LANKA TOURISM & SEARCH DATASET (2017–2026)
+     * ============================================================================
+     */
+    const ANNUAL_TOURISM_DATA = [
+      {
+        year: 2017,
+        arrivals: 2116407,
+        yoyPct: 3.2,
+        revenueM: 3925,
+        avgNights: 10.9,
+        dailySpend: 170,
+        topMarket: 'India (18.2%)',
+        occupancy: 73.3,
+        sltdaRooms: 35986,
+        searchIndex: 78,
+        topSearchTrend: 'Sigiriya & Cultural Triangle',
+        macroRegime: 'Steady Expansion & Regional Air Connectivity Growth'
+      },
+      {
+        year: 2018,
+        arrivals: 2333796,
+        yoyPct: 10.3,
+        revenueM: 4381,
+        avgNights: 10.8,
+        dailySpend: 174,
+        topMarket: 'India (18.2%)',
+        occupancy: 72.8,
+        sltdaRooms: 38214,
+        searchIndex: 86,
+        topSearchTrend: 'Lonely Planet #1 Country 2019',
+        macroRegime: 'Pre-Pandemic All-Time Record Arrivals & FX Peak'
+      },
+      {
+        year: 2019,
+        arrivals: 1913702,
+        yoyPct: -18.0,
+        revenueM: 3607,
+        avgNights: 10.4,
+        dailySpend: 181,
+        topMarket: 'India (18.6%)',
+        occupancy: 57.1,
+        sltdaRooms: 40365,
+        searchIndex: 69,
+        topSearchTrend: 'Sri Lanka Travel Advisory / Safe',
+        macroRegime: 'Apr 21 Easter Sunday Attacks Shock & Q4 Recovery'
+      },
+      {
+        year: 2020,
+        arrivals: 507704,
+        yoyPct: -73.5,
+        revenueM: 682,
+        avgNights: 11.2,
+        dailySpend: 120,
+        topMarket: 'India (17.6%)',
+        occupancy: 18.4,
+        sltdaRooms: 42780,
+        searchIndex: 31,
+        topSearchTrend: 'Sri Lanka Border Closure / Quarantine',
+        macroRegime: 'COVID-19 Pandemic Border Closure (Mar–Dec 2020)'
+      },
+      {
+        year: 2021,
+        arrivals: 194495,
+        yoyPct: -61.7,
+        revenueM: 507,
+        avgNights: 15.1,
+        dailySpend: 173,
+        topMarket: 'India (28.9%)',
+        occupancy: 14.2,
+        sltdaRooms: 44120,
+        searchIndex: 38,
+        topSearchTrend: 'Sri Lanka Bio-Bubble / PCR Rules',
+        macroRegime: 'Pandemic Trough & Long-Stay Bio-Bubble Reopening'
+      },
+      {
+        year: 2022,
+        arrivals: 719978,
+        yoyPct: 270.2,
+        revenueM: 1136,
+        avgNights: 13.8,
+        dailySpend: 114,
+        topMarket: 'India (17.1%)',
+        occupancy: 30.6,
+        sltdaRooms: 46890,
+        searchIndex: 54,
+        topSearchTrend: 'Fuel Crisis / Visa-Free Entry Push',
+        macroRegime: 'Sovereign FX & Fuel Crisis (H1) → H2 Charter Rebound'
+      },
+      {
+        year: 2023,
+        arrivals: 1487303,
+        yoyPct: 106.5,
+        revenueM: 2068,
+        avgNights: 8.9,
+        dailySpend: 156,
+        topMarket: 'India (20.4%)',
+        occupancy: 48.5,
+        sltdaRooms: 49650,
+        searchIndex: 76,
+        topSearchTrend: 'Kandy to Ella Scenic Train & Surf',
+        macroRegime: 'IMF Program Stabilization & +106.5% V-Shaped Rebound'
+      },
+      {
+        year: 2024,
+        arrivals: 2053465,
+        yoyPct: 38.1,
+        revenueM: 3168,
+        avgNights: 8.6,
+        dailySpend: 179,
+        topMarket: 'India (20.3%)',
+        occupancy: 61.4,
+        sltdaRooms: 52410,
+        searchIndex: 88,
+        topSearchTrend: 'Sri Lanka Visa Free / Hiriketiya Surf',
+        macroRegime: 'Surpasses 2M Milestone; Free-Visa Pilot & Airline Expansion'
+      },
+      {
+        year: 2025,
+        arrivals: 2362150,
+        yoyPct: 15.0,
+        revenueM: 3219,
+        avgNights: 8.5,
+        dailySpend: 160,
+        topMarket: 'India (22.1%)',
+        occupancy: 66.8,
+        sltdaRooms: 54600,
+        searchIndex: 94,
+        topSearchTrend: 'Pekoe Trail Hiking & Ramayana Trail',
+        macroRegime: 'Surpasses 2018 All-Time Arrival Record (2.36M)'
+      },
+      {
+        year: 2026,
+        arrivals: 2520000,
+        yoyPct: 6.7,
+        revenueM: 3410,
+        avgNights: 8.7,
+        dailySpend: 156,
+        topMarket: 'India (23.4%)',
+        occupancy: 69.5,
+        sltdaRooms: 56400,
+        searchIndex: 97,
+        topSearchTrend: 'Sigiriya, ETA Visa Online & Ayurveda',
+        macroRegime: 'Annualized Record (1.69M Jan–Sep; $2.25B 9M FX)'
+      }
+    ];
+
+    // Source Markets Configuration & 10-Year Market Share Dynamics
+    const SOURCE_MARKETS = {
+      ALL:       { id: 'ALL',       name: 'All Markets',    share2018: 1.000, share2022: 1.000, share2026: 1.000, spendMult: 1.00, stayMult: 1.00, color: '#06b6d4' },
+      INDIA:     { id: 'INDIA',     name: 'India',          share2018: 0.182, share2022: 0.171, share2026: 0.234, spendMult: 0.88, stayMult: 0.72, color: '#f59e0b' },
+      UK:        { id: 'UK',        name: 'United Kingdom', share2018: 0.109, share2022: 0.118, share2026: 0.096, spendMult: 1.15, stayMult: 1.24, color: '#06b6d4' },
+      RUSSIA:    { id: 'RUSSIA',    name: 'Russia',         share2018: 0.028, share2022: 0.127, share2026: 0.088, spendMult: 0.94, stayMult: 1.32, color: '#f43f5e' },
+      GERMANY:   { id: 'GERMANY',   name: 'Germany',        share2018: 0.067, share2022: 0.077, share2026: 0.066, spendMult: 1.18, stayMult: 1.28, color: '#10b981' },
+      CHINA:     { id: 'CHINA',     name: 'China',          share2018: 0.114, share2022: 0.007, share2026: 0.068, spendMult: 1.12, stayMult: 0.85, color: '#8b5cf6' },
+      AUSTRALIA: { id: 'AUSTRALIA', name: 'Australia',      share2018: 0.047, share2022: 0.043, share2026: 0.051, spendMult: 1.22, stayMult: 1.26, color: '#38bdf8' },
+      FRANCE:    { id: 'FRANCE',    name: 'France',         share2018: 0.046, share2022: 0.049, share2026: 0.047, spendMult: 1.14, stayMult: 1.22, color: '#ec4899' },
+      USA:       { id: 'USA',       name: 'United States',  share2018: 0.032, share2022: 0.031, share2026: 0.039, spendMult: 1.28, stayMult: 1.05, color: '#eab308' },
+      MALDIVES:  { id: 'MALDIVES',  name: 'Maldives',       share2018: 0.033, share2022: 0.026, share2026: 0.035, spendMult: 1.06, stayMult: 0.68, color: '#14b8a6' }
+    };
+
+    // Tourism Segments Configuration
+    const SEGMENTS = {
+      ALL:      { id: 'ALL',      name: 'All Segments',                  share: 1.00, spendMult: 1.00, searchBoost: 0 },
+      CULTURAL: { id: 'CULTURAL', name: 'Cultural & Heritage',           share: 0.34, spendMult: 1.04, searchBoost: 4 },
+      BEACH:    { id: 'BEACH',    name: 'Beach & Surf',                  share: 0.31, spendMult: 0.96, searchBoost: 3 },
+      HILL:     { id: 'HILL',     name: 'Hill Country & Scenic Rail',    share: 0.17, spendMult: 0.98, searchBoost: 5 },
+      WILDLIFE: { id: 'WILDLIFE', name: 'Wildlife & Eco-Safari',         share: 0.11, spendMult: 1.16, searchBoost: 2 },
+      WELLNESS: { id: 'WELLNESS', name: 'Wellness & Ayurveda',           share: 0.07, spendMult: 1.38, searchBoost: 4 }
+    };
+
+    // Dual-Monsoon Seasonality Factors
+    const SEASONALITY_FILTERS = {
+      FULL_YEAR:  { id: 'FULL_YEAR',  name: 'Full Year (Jan–Dec)',        share: 1.00, occAdj: 0 },
+      WEST_SOUTH: { id: 'WEST_SOUTH', name: 'West/South Peak (Dec–Mar)',  share: 0.44, occAdj: 14.5 },
+      EAST_COAST: { id: 'EAST_COAST', name: 'East Coast Peak (May–Sep)',  share: 0.36, occAdj: 3.2 },
+      SHOULDER:   { id: 'SHOULDER',   name: 'Shoulder Months (Apr, Oct–Nov)', share: 0.20, occAdj: -11.0 }
+    };
+
+    // Top 10 Most Demanded Searches & Experiences (with Monthly Curve Jan–Dec)
+    const TOP_SEARCH_QUERIES = [
+      {
+        rank: 1,
+        query: "Sigiriya Rock Fortress & Lion's Rock",
+        shortLabel: "Sigiriya Rock Fortress",
+        segment: 'CULTURAL',
+        category: 'Cultural & Heritage',
+        index: 98,
+        growthPct: 24,
+        peakMonths: 'Jan–Mar, Jul–Aug',
+        topOrigins: 'UK, India, Germany, France',
+        spendTier: '$175–$210 / day',
+        desc: 'Sri Lanka’s flagship 5th-century UNESCO citadel. Anchors 78% of first-time multi-day itineraries across the Cultural Triangle (Sigiriya, Dambulla, Polonnaruwa).',
+        monthlyCurve: [96, 100, 94, 72, 64, 70, 86, 92, 74, 68, 76, 90]
+      },
+      {
+        rank: 2,
+        query: "Kandy to Ella Scenic Train & Nine Arch Bridge",
+        shortLabel: "Kandy–Ella Scenic Train",
+        segment: 'HILL',
+        category: 'Hill Country & Scenic Rail',
+        index: 95,
+        growthPct: 31,
+        peakMonths: 'Jan–Apr, Aug, Dec',
+        topOrigins: 'UK, Germany, Australia, Netherlands',
+        spendTier: '$155–$190 / day',
+        desc: 'Globally viral highland rail journey through misty tea estates and Demodara Nine Arch Bridge. Drives peak boutique homestay & train-ticket advance bookings.',
+        monthlyCurve: [92, 98, 95, 82, 62, 66, 80, 90, 72, 65, 74, 94]
+      },
+      {
+        rank: 3,
+        query: "Sri Lanka Visa / ETA Online & Visa-Free Entry",
+        shortLabel: "Sri Lanka Visa / ETA",
+        segment: 'ALL',
+        category: 'Entry & Travel Logistics',
+        index: 92,
+        growthPct: 42,
+        peakMonths: 'Nov–Feb, Jun–Jul',
+        topOrigins: 'India, China, UK, Russia, USA',
+        spendTier: 'High-Intent Conversion',
+        desc: 'Primary pre-booking conversion query. Surged +42% YoY following Sri Lanka’s 35+ country visa-free entry policy and streamlined online ETA portal rollout.',
+        monthlyCurve: [94, 90, 82, 68, 65, 74, 84, 82, 70, 78, 92, 100]
+      },
+      {
+        rank: 4,
+        query: "Yala & Wilpattu Leopard Safari",
+        shortLabel: "Yala & Wilpattu Safari",
+        segment: 'WILDLIFE',
+        category: 'Wildlife & Eco-Safari',
+        index: 86,
+        growthPct: 19,
+        peakMonths: 'Feb–Apr, Jul–Sep',
+        topOrigins: 'UK, USA, Germany, Australia',
+        spendTier: '$210–$280 / day',
+        desc: 'Highest leopard density safari experience globally. Yala Block 1 peaks Feb–Apr, while Wilpattu and Minneriya ("The Gathering") surge Jul–Sep.',
+        monthlyCurve: [82, 92, 96, 88, 66, 72, 85, 90, 78, 60, 68, 84]
+      },
+      {
+        rank: 5,
+        query: "Mirissa, Hiriketiya & Weligama Surfing / Whale Watching",
+        shortLabel: "Mirissa & Hiriketiya Surf",
+        segment: 'BEACH',
+        category: 'Beach & Surf',
+        index: 84,
+        growthPct: 27,
+        peakMonths: 'Dec–Apr',
+        topOrigins: 'UK, Australia, Russia, Germany',
+        spendTier: '$150–$195 / day',
+        desc: 'South Coast surf & digital-nomad hub anchored by Weligama beginner breaks, Hiriketiya cove, and Mirissa blue-whale excursions.',
+        monthlyCurve: [98, 100, 92, 78, 48, 42, 46, 50, 44, 52, 76, 95]
+      },
+      {
+        rank: 6,
+        query: "Galle Fort Heritage & Boutique Stays",
+        shortLabel: "Galle Fort Heritage",
+        segment: 'CULTURAL',
+        category: 'Cultural & Heritage',
+        index: 81,
+        growthPct: 14,
+        peakMonths: 'Dec–Mar, Aug',
+        topOrigins: 'UK, India, USA, France',
+        spendTier: '$220–$310 / day',
+        desc: '17th-century Dutch-Portuguese fortified coastal town famed for luxury heritage villas, Galle Literary Festival, and high-yield culinary tourism.',
+        monthlyCurve: [95, 98, 90, 74, 56, 58, 72, 80, 62, 60, 75, 94]
+      },
+      {
+        rank: 7,
+        query: "Arugam Bay East Coast Surf Season",
+        shortLabel: "Arugam Bay East Surf",
+        segment: 'BEACH',
+        category: 'Beach & Surf',
+        index: 76,
+        growthPct: 22,
+        peakMonths: 'May–Sep',
+        topOrigins: 'Australia, UK, Israel, Germany',
+        spendTier: '$140–$175 / day',
+        desc: 'Counter-seasonal East Coast surf capital balancing Sri Lanka’s Southwest monsoon, keeping coastal occupancy strong from May through September.',
+        monthlyCurve: [36, 38, 44, 62, 84, 94, 100, 96, 86, 58, 40, 35]
+      },
+      {
+        rank: 8,
+        query: "Ayurveda & Wellness Retreats Sri Lanka",
+        shortLabel: "Ayurveda & Wellness",
+        segment: 'WELLNESS',
+        category: 'Wellness & Ayurveda',
+        index: 72,
+        growthPct: 35,
+        peakMonths: 'Nov–Mar, Jul',
+        topOrigins: 'Germany, Switzerland, UK, Russia',
+        spendTier: '$240–$360 / day',
+        desc: 'Highest per-diem tourist segment (14–21 day Panchakarma & holistic retreats along Bentota, Beruwala, and Kandy hills), led by DACH & UK travelers.',
+        monthlyCurve: [92, 95, 88, 70, 62, 66, 76, 74, 68, 72, 86, 94]
+      },
+      {
+        rank: 9,
+        query: "Pekoe Trail Hiking & Tea Plantations (Nuwara Eliya)",
+        shortLabel: "Pekoe Trail Hiking",
+        segment: 'HILL',
+        category: 'Hill Country & Scenic Rail',
+        index: 68,
+        growthPct: 48,
+        peakMonths: 'Jan–Apr, Jul–Sep',
+        topOrigins: 'UK, Germany, Netherlands, USA',
+        spendTier: '$175–$225 / day',
+        desc: 'Fastest-growing search trend (+48% YoY in 2025/26): 300km curated 22-stage long-distance hiking trail linking Kandy, Hatton, Haputale, and Nuwara Eliya.',
+        monthlyCurve: [88, 96, 94, 80, 58, 64, 82, 88, 76, 62, 70, 86]
+      },
+      {
+        rank: 10,
+        query: "Ramayana Trail Sri Lanka",
+        shortLabel: "Ramayana Trail (India)",
+        segment: 'CULTURAL',
+        category: 'Cultural & Heritage',
+        index: 65,
+        growthPct: 39,
+        peakMonths: 'Oct–Dec, Apr–Jun',
+        topOrigins: 'India (84%), Nepal, Singapore',
+        spendTier: '$145–$180 / day',
+        desc: 'High-volume spiritual & heritage circuit (Munneswaram, Ramboda Hanuman Temple, Seetha Amman Temple, Ravana Ella) propelled by India’s #1 arrival surge.',
+        monthlyCurve: [72, 74, 78, 86, 90, 84, 74, 76, 80, 94, 98, 92]
+      }
+    ];
+
+    // Monthly Arrivals & Search Demand Baseline (Jan–Dec)
+    const MONTHLY_SEASONALITY_SERIES = [
+      { month: 'Jan', arrivalsK: 248, searchIdx: 96, regime: 'West/South Peak' },
+      { month: 'Feb', arrivalsK: 256, searchIdx: 100, regime: 'West/South Peak' },
+      { month: 'Mar', arrivalsK: 234, searchIdx: 92, regime: 'West/South Peak' },
+      { month: 'Apr', arrivalsK: 168, searchIdx: 74, regime: 'Shoulder (Avurudu)' },
+      { month: 'May', arrivalsK: 132, searchIdx: 68, regime: 'East Coast Peak' },
+      { month: 'Jun', arrivalsK: 144, searchIdx: 73, regime: 'East Coast Peak' },
+      { month: 'Jul', arrivalsK: 212, searchIdx: 88, regime: 'East Coast Peak' },
+      { month: 'Aug', arrivalsK: 204, searchIdx: 86, regime: 'East Coast Peak' },
+      { month: 'Sep', arrivalsK: 156, searchIdx: 72, regime: 'East Coast Peak' },
+      { month: 'Oct', arrivalsK: 162, searchIdx: 75, regime: 'Shoulder' },
+      { month: 'Nov', arrivalsK: 196, searchIdx: 84, regime: 'Shoulder / Early Peak' },
+      { month: 'Dec', arrivalsK: 268, searchIdx: 98, regime: 'West/South Peak' }
+    ];
+
+    /**
+     * ============================================================================
+     * 2. INTERACTIVE DASHBOARD STATE
+     * ============================================================================
+     */
+    const state = {
+      era: 'FULL',               // FULL | PRE_SHOCK | CRISIS | RECOVERY
+      market: 'ALL',             // ALL | INDIA | UK | RUSSIA | ...
+      segment: 'ALL',            // ALL | CULTURAL | BEACH | HILL | WILDLIFE | WELLNESS
+      seasonality: 'FULL_YEAR',  // FULL_YEAR | WEST_SOUTH | EAST_COAST | SHOULDER
+      marketChartMode: 'STACKED',// STACKED | SHARE_LINES
+      selectedQueryRank: 1,
+      tableSearch: '',
+      sortField: 'year',
+      sortAsc: true
+    };
+
+    // Chart instances
+    let arrivalsRevChart = null;
+    let sourceMarketsChart = null;
+    let searchBarChart = null;
+    let queryMonthlyChart = null;
+    let monthlySeasonChart = null;
+    let occupancyChart = null;
+
+    function showToast(msg) {
+      const container = document.getElementById('toast-container');
+      const el = document.createElement('div');
+      el.className = 'bg-[#131c31] border border-cyan-500/40 text-slate-100 px-4 py-3 rounded-xl shadow-2xl text-xs sm:text-sm font-medium flex items-center gap-2.5 transition-all duration-300 transform translate-y-2 opacity-0 pointer-events-auto';
+      el.innerHTML = `<span class="w-2 h-2 rounded-full bg-cyan-400"></span><span>${msg}</span>`;
+      container.appendChild(el);
+      requestAnimationFrame(() => el.classList.remove('translate-y-2', 'opacity-0'));
+      setTimeout(() => {
+        el.classList.add('opacity-0', 'translate-y-2');
+        setTimeout(() => el.remove(), 300);
+      }, 3000);
+    }
+
+    function getFilteredYearsData() {
+      return ANNUAL_TOURISM_DATA.filter(d => {
+        if (state.era === 'PRE_SHOCK') return d.year >= 2017 && d.year <= 2019;
+        if (state.era === 'CRISIS') return d.year >= 2020 && d.year <= 2022;
+        if (state.era === 'RECOVERY') return d.year >= 2023 && d.year <= 2026;
+        return true;
+      });
+    }
+
+    function getMarketYearShare(marketId, year) {
+      if (marketId === 'ALL') return 1.0;
+      const m = SOURCE_MARKETS[marketId];
+      if (!m) return 1.0;
+      // Interpolate share smoothly across 2017-2026
+      if (year <= 2019) return m.share2018;
+      if (year <= 2022) return m.share2022;
+      const t = (year - 2023) / 3;
+      return m.share2022 + (m.share2026 - m.share2022) * Math.min(1, Math.max(0, t));
+    }
+
+    function computeAdjustedYearRow(row) {
+      const mShare = getMarketYearShare(state.market, row.year);
+      const segObj = SEGMENTS[state.segment];
+      const seaObj = SEASONALITY_FILTERS[state.seasonality];
+      const mObj = SOURCE_MARKETS[state.market];
+
+      const combinedMult = mShare * segObj.share * seaObj.share;
+      const adjArrivals = Math.round(row.arrivals * combinedMult);
+      const adjSpend = Math.round(row.dailySpend * mObj.spendMult * segObj.spendMult);
+      const adjNights = Math.round(row.avgNights * mObj.stayMult * 10) / 10;
+      const adjRevenueM = Math.round((adjArrivals * adjSpend * adjNights) / 1000000);
+      const adjOcc = Math.min(94, Math.max(8, Math.round((row.occupancy + seaObj.occAdj) * 10) / 10));
+
+      return {
+        ...row,
+        adjArrivals,
+        adjRevenueM: state.market === 'ALL' && state.segment === 'ALL' && state.seasonality === 'FULL_YEAR' ? row.revenueM : adjRevenueM,
+        adjSpend,
+        adjNights,
+        adjOcc
+      };
+    }
+
+    /**
+     * ============================================================================
+     * 3. UPDATE EXECUTIVE KPI CARDS
+     * ============================================================================
+     */
+    function updateKPIs() {
+      const eraRows = getFilteredYearsData().map(computeAdjustedYearRow);
+      const totalArrivals = eraRows.reduce((acc, r) => acc + r.adjArrivals, 0);
+      const totalRevM = eraRows.reduce((acc, r) => acc + r.adjRevenueM, 0);
+      const avgOcc = eraRows.reduce((acc, r) => acc + r.adjOcc, 0) / (eraRows.length || 1);
+      const avgNights = eraRows.reduce((acc, r) => acc + r.adjNights, 0) / (eraRows.length || 1);
+      const avgDailySpend = eraRows.reduce((acc, r) => acc + r.adjSpend, 0) / (eraRows.length || 1);
+
+      const latestRow = eraRows[eraRows.length - 1];
+      const perTouristYield = totalArrivals > 0 ? Math.round((totalRevM * 1000000) / totalArrivals) : 0;
+
+      // Format Arrivals
+      const formattedArrivals = totalArrivals >= 1000000
+        ? `${(totalArrivals / 1000000).toFixed(2)}M`
+        : `${Math.round(totalArrivals / 1000).toLocaleString()}K`;
+
+      const latestFormatted = latestRow.adjArrivals >= 1000000
+        ? `${(latestRow.adjArrivals / 1000000).toFixed(2)}M`
+        : `${Math.round(latestRow.adjArrivals / 1000).toLocaleString()}K`;
+
+      document.getElementById('kpi1-title').textContent = `Cumulative Arrivals (${eraRows.length}-Yr)`;
+      document.getElementById('kpi1-value').textContent = formattedArrivals;
+      document.getElementById('kpi1-meta').textContent = `${latestRow.year}: ${latestFormatted}`;
+
+      if (state.era === 'CRISIS') {
+        document.getElementById('kpi1-badge').textContent = '-76.3% Pandemic Shock';
+        document.getElementById('kpi1-badge').className = 'inline-flex items-center px-2 py-0.5 rounded-md font-mono font-semibold bg-rose-500/15 text-rose-400 border border-rose-500/30';
+      } else {
+        document.getElementById('kpi1-badge').textContent = state.era === 'PRE_SHOCK' ? '2018 Peak: 2.33M' : '2025–26 > 2018 Peak';
+        document.getElementById('kpi1-badge').className = 'inline-flex items-center px-2 py-0.5 rounded-md font-mono font-semibold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30';
+      }
+
+      // Format Revenue
+      const formattedRev = totalRevM >= 1000
+        ? `$${(totalRevM / 1000).toFixed(2)}B`
+        : `$${totalRevM.toLocaleString()}M`;
+
+      document.getElementById('kpi2-value').textContent = formattedRev;
+      document.getElementById('kpi2-badge').textContent = `$${perTouristYield.toLocaleString()} / Tourist Yield`;
+      document.getElementById('kpi2-meta').textContent = `Avg $${Math.round(avgDailySpend)}/day`;
+
+      // Search Demand Index
+      const segBoost = SEGMENTS[state.segment].searchBoost;
+      const baseSearch = eraRows.reduce((acc, r) => acc + r.searchIndex, 0) / (eraRows.length || 1);
+      const displaySearchIdx = Math.min(100, Math.round((state.era === 'FULL' ? 89.4 : baseSearch) + segBoost * 0.6) * 10) / 10;
+
+      const matchingQueries = TOP_SEARCH_QUERIES.filter(q => state.segment === 'ALL' || q.segment === state.segment);
+      const topQ = matchingQueries[0] || TOP_SEARCH_QUERIES[0];
+
+      document.getElementById('kpi3-value').textContent = displaySearchIdx.toFixed(1);
+      document.getElementById('kpi3-badge').textContent = `🔥 ${topQ.shortLabel} (${topQ.index})`;
+      document.getElementById('kpi3-meta').textContent = `+${topQ.growthPct}% YoY`;
+
+      // Occupancy & Stay
+      document.getElementById('kpi4-value').textContent = `${avgOcc.toFixed(1)}%`;
+      document.getElementById('kpi4-stay').textContent = `• ${avgNights.toFixed(1)} Nights`;
+      document.getElementById('kpi4-rooms').textContent = `${latestRow.sltdaRooms.toLocaleString()} Rooms`;
+
+      // Update Scope Pill
+      const mName = SOURCE_MARKETS[state.market].name;
+      const sName = SEGMENTS[state.segment].name;
+      const yrRange = `${eraRows[0].year}–${eraRows[eraRows.length - 1].year}`;
+      document.getElementById('active-scope-label').textContent = `${mName} • ${sName} • ${yrRange}`;
+    }
+
+    /**
+     * ============================================================================
+     * 4. RENDER ALL INTERACTIVE CHARTS (CHART.JS)
+     * ============================================================================
+     */
+    function renderAllCharts() {
+      Chart.defaults.color = '#94a3b8';
+      Chart.defaults.font.family = "'Inter', sans-serif";
+
+      const eraRows = getFilteredYearsData().map(computeAdjustedYearRow);
+      const years = eraRows.map(r => r.year);
+
+      // --------------------------------------------------------------------------
+      // CHART 1: 10-YEAR ARRIVALS & USD REVENUE TRAJECTORY (DUAL-AXIS BAR + LINE)
+      // --------------------------------------------------------------------------
+      const ctx1 = document.getElementById('arrivalsRevenueChart').getContext('2d');
+      if (arrivalsRevChart) arrivalsRevChart.destroy();
+
+      const annotations1 = {};
+      const idx2018 = years.indexOf(2018);
+      const idx2021 = years.indexOf(2021);
+      const idx2025 = years.indexOf(2025);
+
+      if (idx2018 !== -1) {
+        annotations1.peak2018 = {
+          type: 'label',
+          xValue: idx2018,
+          yValue: eraRows[idx2018].adjArrivals,
+          yAdjust: -18,
+          backgroundColor: 'rgba(6, 182, 212, 0.2)',
+          borderColor: 'rgba(6, 182, 212, 0.5)',
+          borderWidth: 1,
+          borderRadius: 6,
+          color: '#67e8f9',
+          font: { size: 10, weight: '600', family: 'JetBrains Mono' },
+          content: ['2018 Peak']
+        };
+      }
+      if (idx2021 !== -1) {
+        annotations1.trough2021 = {
+          type: 'label',
+          xValue: idx2021,
+          yValue: eraRows[idx2021].adjArrivals,
+          yAdjust: -22,
+          backgroundColor: 'rgba(244, 63, 94, 0.2)',
+          borderColor: 'rgba(244, 63, 94, 0.5)',
+          borderWidth: 1,
+          borderRadius: 6,
+          color: '#fda4af',
+          font: { size: 10, weight: '600', family: 'JetBrains Mono' },
+          content: ['COVID Trough']
+        };
+      }
+      if (idx2025 !== -1) {
+        annotations1.rec2025 = {
+          type: 'label',
+          xValue: idx2025,
+          yValue: eraRows[idx2025].adjArrivals,
+          yAdjust: -18,
+          backgroundColor: 'rgba(16, 185, 129, 0.2)',
+          borderColor: 'rgba(16, 185, 129, 0.5)',
+          borderWidth: 1,
+          borderRadius: 6,
+          color: '#6ee7b7',
+          font: { size: 10, weight: '600', family: 'JetBrains Mono' },
+          content: ['Record Surpassed']
+        };
+      }
+
+      arrivalsRevChart = new Chart(ctx1, {
+        data: {
+          labels: years,
+          datasets: [
+            {
+              type: 'bar',
+              label: 'Tourist Arrivals',
+              data: eraRows.map(r => r.adjArrivals),
+              backgroundColor: years.map(y => {
+                if (y === 2020 || y === 2021) return 'rgba(244, 63, 94, 0.72)';
+                if (y === 2022) return 'rgba(245, 158, 11, 0.75)';
+                if (y >= 2025) return 'rgba(16, 185, 129, 0.82)';
+                return 'rgba(6, 182, 212, 0.78)';
+              }),
+              borderRadius: 6,
+              yAxisID: 'y'
+            },
+            {
+              type: 'line',
+              label: 'FX Revenue ($M USD)',
+              data: eraRows.map(r => r.adjRevenueM),
+              borderColor: '#f59e0b',
+              backgroundColor: '#f59e0b',
+              borderWidth: 3,
+              pointRadius: 4.5,
+              pointHoverRadius: 7,
+              tension: 0.3,
+              yAxisID: 'y1'
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          interaction: { mode: 'index', intersect: false },
+          plugins: {
+            legend: {
+              position: 'top',
+              labels: { usePointStyle: true, boxWidth: 8, color: '#cbd5e1', font: { size: 11, weight: '600' } }
+            },
+            tooltip: {
+              backgroundColor: '#070b14',
+              borderColor: '#1e293b',
+              borderWidth: 1,
+              padding: 12,
+              callbacks: {
+                label: (ctx) => {
+                  if (ctx.datasetIndex === 0) return ` Arrivals: ${ctx.parsed.y.toLocaleString()} tourists`;
+                  return ` FX Revenue: $${ctx.parsed.y.toLocaleString()}M USD`;
+                }
+              }
+            },
+            annotation: { annotations: annotations1 }
+          },
+          scales: {
+            y: {
+              position: 'left',
+              beginAtZero: true,
+              grid: { color: 'rgba(30, 41, 59, 0.6)' },
+              ticks: {
+                font: { size: 11, family: 'JetBrains Mono' },
+                callback: (v) => v >= 1000000 ? `${(v / 1000000).toFixed(1)}M` : `${Math.round(v / 1000)}K`
+              }
+            },
+            y1: {
+              position: 'right',
+              beginAtZero: true,
+              grid: { drawOnChartArea: false },
+              ticks: {
+                font: { size: 11, family: 'JetBrains Mono' },
+                color: '#fbbf24',
+                callback: (v) => `$${v.toLocaleString()}M`
+              }
+            },
+            x: {
+              grid: { display: false },
+              ticks: { font: { size: 11, weight: '600', family: 'JetBrains Mono' }, color: '#e2e8f0' }
+            }
+          }
+        }
+      });
+
+      // --------------------------------------------------------------------------
+      // CHART 2: TOP SOURCE MARKETS EVOLUTION (2017–2026)
+      // --------------------------------------------------------------------------
+      const ctx2 = document.getElementById('sourceMarketsChart').getContext('2d');
+      if (sourceMarketsChart) sourceMarketsChart.destroy();
+
+      const topMarketKeys = ['INDIA', 'UK', 'RUSSIA', 'GERMANY', 'CHINA', 'AUSTRALIA', 'FRANCE', 'USA'];
+      const isStacked = state.marketChartMode === 'STACKED';
+
+      const marketDatasets = topMarketKeys.map(mKey => {
+        const mObj = SOURCE_MARKETS[mKey];
+        const isHighlighted = state.market === 'ALL' || state.market === mKey;
+        const dataSeries = eraRows.map(r => {
+          const share = getMarketYearShare(mKey, r.year);
+          if (!isStacked) return Math.round(share * 1000) / 10;
+          return Math.round(r.arrivals * share * SEGMENTS[state.segment].share * SEASONALITY_FILTERS[state.seasonality].share);
+        });
+
+        return {
+          type: isStacked ? 'bar' : 'line',
+          label: mObj.name,
+          data: dataSeries,
+          backgroundColor: isHighlighted ? mObj.color : 'rgba(71, 85, 105, 0.25)',
+          borderColor: isHighlighted ? mObj.color : 'rgba(71, 85, 105, 0.35)',
+          borderWidth: isStacked ? 0 : (isHighlighted ? 2.5 : 1.5),
+          pointRadius: isStacked ? 0 : 3,
+          stack: isStacked ? 'markets' : undefined,
+          tension: 0.3
+        };
+      });
+
+      sourceMarketsChart = new Chart(ctx2, {
+        data: {
+          labels: years,
+          datasets: marketDatasets
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          interaction: { mode: 'index', intersect: false },
+          plugins: {
+            legend: {
+              position: 'top',
+              labels: { usePointStyle: true, boxWidth: 7, color: '#cbd5e1', font: { size: 10, weight: '600' } }
+            },
+            tooltip: {
+              backgroundColor: '#070b14',
+              borderColor: '#1e293b',
+              borderWidth: 1,
+              callbacks: {
+                label: (ctx) => isStacked
+                  ? ` ${ctx.dataset.label}: ${ctx.parsed.y.toLocaleString()}`
+                  : ` ${ctx.dataset.label}: ${ctx.parsed.y}% share`
+              }
+            }
+          },
+          scales: {
+            y: {
+              stacked: isStacked,
+              beginAtZero: true,
+              grid: { color: 'rgba(30, 41, 59, 0.6)' },
+              ticks: {
+                font: { size: 10, family: 'JetBrains Mono' },
+                callback: (v) => isStacked ? (v >= 1000000 ? `${(v / 1000000).toFixed(1)}M` : `${Math.round(v / 1000)}K`) : `${v}%`
+              }
+            },
+            x: {
+              stacked: isStacked,
+              grid: { display: false },
+              ticks: { font: { size: 11, weight: '600', family: 'JetBrains Mono' }, color: '#e2e8f0' }
+            }
+          }
+        }
+      });
+
+      // --------------------------------------------------------------------------
+      // CHART 3: TOP 10 MOST SEARCHED DESTINATIONS HORIZONTAL BAR CHART
+      // --------------------------------------------------------------------------
+      const ctx3 = document.getElementById('searchDemandBarChart').getContext('2d');
+      if (searchBarChart) searchBarChart.destroy();
+
+      searchBarChart = new Chart(ctx3, {
+        type: 'bar',
+        data: {
+          labels: TOP_SEARCH_QUERIES.map(q => `#${q.rank} ${q.shortLabel}`),
+          datasets: [
+            {
+              label: 'Global Search Index (0–100)',
+              data: TOP_SEARCH_QUERIES.map(q => q.index),
+              backgroundColor: TOP_SEARCH_QUERIES.map(q => {
+                if (q.rank === state.selectedQueryRank) return '#8b5cf6';
+                if (state.segment !== 'ALL' && q.segment === state.segment) return '#06b6d4';
+                return 'rgba(6, 182, 212, 0.45)';
+              }),
+              borderColor: TOP_SEARCH_QUERIES.map(q => q.rank === state.selectedQueryRank ? '#c4b5fd' : 'transparent'),
+              borderWidth: 1.5,
+              borderRadius: 6
+            }
+          ]
+        },
+        options: {
+          indexAxis: 'y',
+          responsive: true,
+          maintainAspectRatio: false,
+          onClick: (e, elements) => {
+            if (elements.length > 0) {
+              const idx = elements[0].index;
+              state.selectedQueryRank = TOP_SEARCH_QUERIES[idx].rank;
+              updateSearchInspector();
+              renderAllCharts();
+            }
+          },
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              backgroundColor: '#070b14',
+              borderColor: '#1e293b',
+              borderWidth: 1,
+              callbacks: {
+                label: (ctx) => {
+                  const item = TOP_SEARCH_QUERIES[ctx.dataIndex];
+                  return ` Search Index: ${item.index}/100 (+${item.growthPct}% YoY)`;
+                }
+              }
+            }
+          },
+          scales: {
+            x: {
+              min: 0,
+              max: 105,
+              grid: { color: 'rgba(30, 41, 59, 0.6)' },
+              ticks: { font: { size: 10, family: 'JetBrains Mono' } }
+            },
+            y: {
+              grid: { display: false },
+              ticks: { color: '#e2e8f0', font: { size: 11, weight: '600' } }
+            }
+          }
+        }
+      });
+
+      // --------------------------------------------------------------------------
+      // CHART 4: MONTHLY DUAL-MONSOON ARRIVALS & SEARCH DEMAND
+      // --------------------------------------------------------------------------
+      const ctx4 = document.getElementById('monthlySeasonalityChart').getContext('2d');
+      if (monthlySeasonChart) monthlySeasonChart.destroy();
+
+      const mShare = getMarketYearShare(state.market, 2026);
+      const segShare = SEGMENTS[state.segment].share;
+
+      monthlySeasonChart = new Chart(ctx4, {
+        data: {
+          labels: MONTHLY_SEASONALITY_SERIES.map(m => m.month),
+          datasets: [
+            {
+              type: 'bar',
+              label: 'Monthly Arrivals (2025/26 Avg)',
+              data: MONTHLY_SEASONALITY_SERIES.map(m => Math.round(m.arrivalsK * 1000 * mShare * segShare)),
+              backgroundColor: MONTHLY_SEASONALITY_SERIES.map((m, i) => {
+                const isWest = [11, 0, 1, 2].includes(i);
+                const isEast = [4, 5, 6, 7, 8].includes(i);
+                if (state.seasonality === 'WEST_SOUTH' && !isWest) return 'rgba(51, 65, 85, 0.35)';
+                if (state.seasonality === 'EAST_COAST' && !isEast) return 'rgba(51, 65, 85, 0.35)';
+                if (state.seasonality === 'SHOULDER' && (isWest || isEast)) return 'rgba(51, 65, 85, 0.35)';
+                if (isWest) return 'rgba(6, 182, 212, 0.82)';
+                if (isEast) return 'rgba(245, 158, 11, 0.82)';
+                return 'rgba(139, 92, 246, 0.72)';
+              }),
+              borderRadius: 6,
+              yAxisID: 'y'
+            },
+            {
+              type: 'line',
+              label: 'Global Search Intent Index',
+              data: MONTHLY_SEASONALITY_SERIES.map(m => m.searchIdx),
+              borderColor: '#10b981',
+              backgroundColor: '#10b981',
+              borderWidth: 2.5,
+              pointRadius: 3.5,
+              tension: 0.35,
+              yAxisID: 'y1'
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          interaction: { mode: 'index', intersect: false },
+          plugins: {
+            legend: {
+              position: 'top',
+              labels: { usePointStyle: true, boxWidth: 8, color: '#cbd5e1', font: { size: 11, weight: '600' } }
+            },
+            tooltip: {
+              backgroundColor: '#070b14',
+              borderColor: '#1e293b',
+              borderWidth: 1,
+              callbacks: {
+                afterBody: (items) => {
+                  const idx = items[0].dataIndex;
+                  return `Window: ${MONTHLY_SEASONALITY_SERIES[idx].regime}`;
+                }
+              }
+            }
+          },
+          scales: {
+            y: {
+              position: 'left',
+              beginAtZero: true,
+              grid: { color: 'rgba(30, 41, 59, 0.6)' },
+              ticks: {
+                font: { size: 10, family: 'JetBrains Mono' },
+                callback: (v) => v >= 1000 ? `${Math.round(v / 1000)}K` : v
+              }
+            },
+            y1: {
+              position: 'right',
+              min: 40,
+              max: 105,
+              grid: { drawOnChartArea: false },
+              ticks: {
+                font: { size: 10, family: 'JetBrains Mono' },
+                color: '#34d399'
+              }
+            },
+            x: {
+              grid: { display: false },
+              ticks: { font: { size: 11, weight: '600', family: 'JetBrains Mono' }, color: '#e2e8f0' }
+            }
+          }
+        }
+      });
+
+      // --------------------------------------------------------------------------
+      // CHART 5: SLTDA HOTEL OCCUPANCY RATE TREND (2017–2026)
+      // --------------------------------------------------------------------------
+      const ctx5 = document.getElementById('occupancyTrendChart').getContext('2d');
+      if (occupancyChart) occupancyChart.destroy();
+
+      occupancyChart = new Chart(ctx5, {
+        type: 'line',
+        data: {
+          labels: years,
+          datasets: [
+            {
+              label: 'Formal Hotel Occupancy %',
+              data: eraRows.map(r => r.adjOcc),
+              borderColor: '#38bdf8',
+              backgroundColor: 'rgba(56, 189, 248, 0.14)',
+              borderWidth: 2.5,
+              pointRadius: 3.5,
+              fill: true,
+              tension: 0.3
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              backgroundColor: '#070b14',
+              callbacks: {
+                label: (ctx) => ` Occupancy Rate: ${ctx.parsed.y}%`
+              }
+            }
+          },
+          scales: {
+            y: {
+              min: 0,
+              max: 100,
+              grid: { color: 'rgba(30, 41, 59, 0.6)' },
+              ticks: { font: { size: 10, family: 'JetBrains Mono' }, callback: (v) => `${v}%` }
+            },
+            x: {
+              grid: { display: false },
+              ticks: { font: { size: 10, family: 'JetBrains Mono' } }
+            }
+          }
+        }
+      });
+    }
+
+    /**
+     * ============================================================================
+     * 5. INTERACTIVE SEARCH QUERY EXPLORER & CARDS
+     * ============================================================================
+     */
+    function updateSearchInspector() {
+      const item = TOP_SEARCH_QUERIES.find(q => q.rank === state.selectedQueryRank) || TOP_SEARCH_QUERIES[0];
+
+      document.getElementById('insp-rank').textContent = `#${item.rank}`;
+      document.getElementById('insp-category').textContent = item.category;
+      document.getElementById('insp-title').textContent = item.query;
+      document.getElementById('insp-index').textContent = `Index: ${item.index} / 100`;
+      document.getElementById('insp-growth').textContent = `+${item.growthPct}% YoY Search Growth`;
+      document.getElementById('insp-desc').textContent = item.desc;
+      document.getElementById('insp-peaks').textContent = item.peakMonths;
+      document.getElementById('insp-origins').textContent = item.topOrigins;
+      document.getElementById('insp-spend').textContent = item.spendTier;
+
+      // Render mini monthly seasonality curve for selected search query
+      const ctxMini = document.getElementById('queryMonthlyChart').getContext('2d');
+      if (queryMonthlyChart) queryMonthlyChart.destroy();
+
+      queryMonthlyChart = new Chart(ctxMini, {
+        type: 'line',
+        data: {
+          labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+          datasets: [{
+            label: 'Search Interest',
+            data: item.monthlyCurve,
+            borderColor: '#a78bfa',
+            backgroundColor: 'rgba(139, 92, 246, 0.18)',
+            borderWidth: 2,
+            pointRadius: 2.5,
+            fill: true,
+            tension: 0.35
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              backgroundColor: '#070b14',
+              callbacks: { label: (c) => ` Search Demand: ${c.parsed.y}/100` }
+            }
+          },
+          scales: {
+            y: {
+              min: 20,
+              max: 105,
+              grid: { color: 'rgba(30, 41, 59, 0.5)' },
+              ticks: { font: { size: 9, family: 'JetBrains Mono' }, stepSize: 40 }
+            },
+            x: {
+              grid: { display: false },
+              ticks: { font: { size: 9, family: 'JetBrains Mono' } }
+            }
+          }
+        }
+      });
+
+      // Render selectable list of 10 cards
+      const listEl = document.getElementById('search-cards-list');
+      listEl.innerHTML = '';
+
+      TOP_SEARCH_QUERIES.forEach(q => {
+        const isSelected = q.rank === state.selectedQueryRank;
+        const isSegMatch = state.segment !== 'ALL' && q.segment === state.segment;
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = `text-left p-2.5 rounded-xl border transition flex items-center justify-between gap-2 cursor-pointer ${
+          isSelected
+            ? 'bg-violet-500/20 border-violet-400 text-white shadow'
+            : isSegMatch
+              ? 'bg-cyan-500/10 border-cyan-500/40 text-slate-200 hover:border-cyan-400'
+              : 'bg-[#0b1120]/80 border-slate-800 text-slate-300 hover:border-slate-600'
+        }`;
+
+        btn.innerHTML = `
+          <div class="min-w-0">
+            <div class="flex items-center gap-1.5">
+              <span class="font-mono text-[11px] font-bold ${isSelected ? 'text-violet-300' : 'text-cyan-400'}">#${q.rank}</span>
+              <span class="text-xs font-semibold truncate">${q.shortLabel}</span>
+            </div>
+            <span class="block text-[10px] text-slate-400 truncate mt-0.5">${q.peakMonths}</span>
+          </div>
+          <div class="text-right shrink-0 font-mono">
+            <span class="block text-xs font-bold text-white">${q.index}</span>
+            <span class="block text-[10px] text-emerald-400">+${q.growthPct}%</span>
+          </div>
+        `;
+
+        btn.addEventListener('click', () => {
+          state.selectedQueryRank = q.rank;
+          updateSearchInspector();
+          renderAllCharts();
+        });
+
+        listEl.appendChild(btn);
+      });
+    }
+
+    /**
+     * ============================================================================
+     * 6. 10-YEAR LONGITUDINAL DATA TABLE & CSV EXPORT
+     * ============================================================================
+     */
+    function getFilteredTableRows() {
+      const q = state.tableSearch.trim().toLowerCase();
+      return getFilteredYearsData()
+        .map(computeAdjustedYearRow)
+        .filter(r => {
+          if (!q) return true;
+          const hay = `${r.year} ${r.topMarket} ${r.topSearchTrend} ${r.macroRegime}`.toLowerCase();
+          return hay.includes(q);
+        })
+        .sort((a, b) => {
+          let vA = a[state.sortField];
+          let vB = b[state.sortField];
+          if (typeof vA === 'string') {
+            vA = vA.toLowerCase();
+            vB = vB.toLowerCase();
+          }
+          if (vA < vB) return state.sortAsc ? -1 : 1;
+          if (vA > vB) return state.sortAsc ? 1 : -1;
+          return 0;
+        });
+    }
+
+    function renderTable() {
+      const rows = getFilteredTableRows();
+      const tbody = document.getElementById('longitudinal-table-body');
+      tbody.innerHTML = '';
+
+      if (rows.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="10" class="py-8 text-center text-slate-500">No longitudinal years match your search query.</td></tr>`;
+      } else {
+        rows.forEach(r => {
+          const yoyBadge = r.yoyPct >= 0
+            ? `<span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono font-semibold text-xs">+${r.yoyPct.toFixed(1)}%</span>`
+            : `<span class="px-2 py-0.5 rounded bg-rose-500/15 text-rose-400 font-mono font-semibold text-xs">${r.yoyPct.toFixed(1)}%</span>`;
+
+          const displayMarket = state.market === 'ALL'
+            ? r.topMarket
+            : `${SOURCE_MARKETS[state.market].name} (${(getMarketYearShare(state.market, r.year) * 100).toFixed(1)}%)`;
+
+          const tr = document.createElement('tr');
+          tr.className = 'hover:bg-slate-800/40 transition-colors';
+          tr.innerHTML = `
+            <td class="py-3 px-4 font-mono font-bold text-white">${r.year}${r.year === 2026 ? '<span class="ml-1 text-[10px] text-cyan-400">PROJ</span>' : ''}</td>
+            <td class="py-3 px-4 text-right font-mono font-bold text-cyan-300">${r.adjArrivals.toLocaleString()}</td>
+            <td class="py-3 px-4 text-right">${yoyBadge}</td>
+            <td class="py-3 px-4 text-right font-mono font-bold text-amber-300">$${r.adjRevenueM.toLocaleString()}M</td>
+            <td class="py-3 px-4 text-right font-mono text-slate-200">$${r.adjSpend}</td>
+            <td class="py-3 px-4 text-right font-mono text-slate-300">${r.adjNights.toFixed(1)}</td>
+            <td class="py-3 px-4 font-medium text-slate-200">${displayMarket}</td>
+            <td class="py-3 px-4 text-right font-mono text-emerald-300">${r.adjOcc.toFixed(1)}%</td>
+            <td class="py-3 px-4 text-xs font-medium text-violet-300">${r.topSearchTrend}</td>
+            <td class="py-3 px-4 text-xs text-slate-400 max-w-xs">${r.macroRegime}</td>
+          `;
+          tbody.appendChild(tr);
+        });
+      }
+
+      document.getElementById('table-summary-footer').textContent = `Showing ${rows.length} longitudinal year(s) • Active Market: ${SOURCE_MARKETS[state.market].name} • Segment: ${SEGMENTS[state.segment].name}`;
+    }
+
+    function downloadCSV() {
+      const rows = getFilteredTableRows();
+      const headers = [
+        'Year',
+        'Filtered_Arrivals',
+        'YoY_Growth_Pct',
+        'FX_Revenue_USD_Millions',
+        'Daily_Spend_USD',
+        'Avg_Length_Of_Stay_Nights',
+        'Top_Source_Market',
+        'Hotel_Occupancy_Pct',
+        'SLTDA_Registered_Rooms',
+        'Global_Search_Index',
+        'Top_Search_Trend',
+        'Macro_Regime_Driver'
+      ];
+
+      const csvLines = [headers.join(',')];
+      rows.forEach(r => {
+        const displayMarket = state.market === 'ALL'
+          ? r.topMarket
+          : `${SOURCE_MARKETS[state.market].name} (${(getMarketYearShare(state.market, r.year) * 100).toFixed(1)}%)`;
+
+        csvLines.push([
+          r.year,
+          r.adjArrivals,
+          r.yoyPct.toFixed(1),
+          r.adjRevenueM,
+          r.adjSpend,
+          r.adjNights.toFixed(1),
+          `"${displayMarket}"`,
+          r.adjOcc.toFixed(1),
+          r.sltdaRooms,
+          r.searchIndex,
+          `"${r.topSearchTrend}"`,
+          `"${r.macroRegime.replace(/"/g, '""')}"`
+        ].join(','));
+      });
+
+      const blob = new Blob([csvLines.join('\n')], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `Sri_Lanka_Tourism_Search_Intelligence_2017_2026_${state.market}_${state.segment}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+
+      showToast(`Downloaded ${rows.length}-year tourism intelligence CSV (${state.market}).`);
+    }
+
+    /**
+     * ============================================================================
+     * 7. INITIALIZE & WIRE ALL EVENT LISTENERS
+     * ============================================================================
+     */
+    function refreshDashboard() {
+      updateKPIs();
+      renderAllCharts();
+      updateSearchInspector();
+      renderTable();
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // Era Pills
+      document.querySelectorAll('.era-pill').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.era-pill').forEach(p => {
+            p.classList.remove('bg-cyan-500', 'text-slate-950', 'font-semibold', 'shadow');
+            p.classList.add('text-slate-300', 'font-medium');
+          });
+          btn.classList.add('bg-cyan-500', 'text-slate-950', 'font-semibold', 'shadow');
+          btn.classList.remove('text-slate-300', 'font-medium');
+          state.era = btn.dataset.era;
+          refreshDashboard();
+        });
+      });
+
+      // Global Filter Selects
+      document.getElementById('filter-market').addEventListener('change', (e) => {
+        state.market = e.target.value;
+        refreshDashboard();
+      });
+
+      document.getElementById('filter-segment').addEventListener('change', (e) => {
+        state.segment = e.target.value;
+        // Auto-select top matching search query for segment
+        if (state.segment !== 'ALL') {
+          const match = TOP_SEARCH_QUERIES.find(q => q.segment === state.segment);
+          if (match) state.selectedQueryRank = match.rank;
+        }
+        refreshDashboard();
+      });
+
+      document.getElementById('filter-seasonality').addEventListener('change', (e) => {
+        state.seasonality = e.target.value;
+        refreshDashboard();
+      });
+
+      // Toggle Source Markets Chart Mode (Stacked Volume vs % Share Lines)
+      document.getElementById('toggle-market-mode').addEventListener('click', (e) => {
+        state.marketChartMode = state.marketChartMode === 'STACKED' ? 'SHARE_LINES' : 'STACKED';
+        e.target.textContent = state.marketChartMode === 'STACKED' ? 'View: Stacked Volume' : 'View: % Market Share';
+        renderAllCharts();
+      });
+
+      // Reset All Filters
+      document.getElementById('reset-all-btn').addEventListener('click', () => {
+        state.era = 'FULL';
+        state.market = 'ALL';
+        state.segment = 'ALL';
+        state.seasonality = 'FULL_YEAR';
+        state.tableSearch = '';
+
+        document.getElementById('filter-market').value = 'ALL';
+        document.getElementById('filter-segment').value = 'ALL';
+        document.getElementById('filter-seasonality').value = 'FULL_YEAR';
+        document.getElementById('table-search-input').value = '';
+
+        document.querySelectorAll('.era-pill').forEach(p => {
+          const isFull = p.dataset.era === 'FULL';
+          p.classList.toggle('bg-cyan-500', isFull);
+          p.classList.toggle('text-slate-950', isFull);
+          p.classList.toggle('font-semibold', isFull);
+          p.classList.toggle('shadow', isFull);
+          p.classList.toggle('text-slate-300', !isFull);
+          p.classList.toggle('font-medium', !isFull);
+        });
+
+        refreshDashboard();
+        showToast('All filters reset to full 10-year national tourism view.');
+      });
+
+      // Table Search & Column Sorting
+      document.getElementById('table-search-input').addEventListener('input', (e) => {
+        state.tableSearch = e.target.value;
+        renderTable();
+      });
+
+      document.querySelectorAll('th[data-sort]').forEach(th => {
+        th.addEventListener('click', () => {
+          const field = th.dataset.sort;
+          if (state.sortField === field) {
+            state.sortAsc = !state.sortAsc;
+          } else {
+            state.sortField = field;
+            state.sortAsc = true;
+          }
+          renderTable();
+        });
+      });
+
+      // CSV Downloads
+      document.getElementById('download-csv-header').addEventListener('click', downloadCSV);
+      document.getElementById('download-csv-table').addEventListener('click', downloadCSV);
+
+      // Initial Render
+      refreshDashboard();
+    });
+  </script>
+</body>
+</html>

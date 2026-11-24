@@ -1,0 +1,9 @@
+{
+  "name": "Investment",
+  "icon": "IN",
+  "priority": 14,
+  "cta": {
+    "label": "Request assistance",
+    "service": "preliminary market research"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "name": "Travel",
+  "icon": "TR",
+  "priority": 11,
+  "cta": {
+    "label": "Request assistance",
+    "service": "local travel assistance"
+  }
+}

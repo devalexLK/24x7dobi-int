@@ -1,0 +1,9 @@
+{
+  "name": "Free Tools",
+  "icon": "FT",
+  "priority": 18,
+  "cta": {
+    "label": "Request assistance",
+    "service": "help with a tool"
+  }
+}

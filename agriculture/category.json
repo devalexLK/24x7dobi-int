@@ -1,0 +1,9 @@
+{
+  "name": "Agriculture",
+  "icon": "AG",
+  "priority": 13,
+  "cta": {
+    "label": "Request assistance",
+    "service": "agricultural market research"
+  }
+}

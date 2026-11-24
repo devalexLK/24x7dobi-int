@@ -1,0 +1,9 @@
+{
+  "name": "Technology",
+  "icon": "TE",
+  "priority": 10,
+  "cta": {
+    "label": "Request assistance",
+    "service": "technical support"
+  }
+}

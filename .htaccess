@@ -1,0 +1,6 @@
+Options -Indexes -MultiViews
+DirectoryIndex disabled
+RewriteEngine On
+RewriteRule ^(?:index\.(?:php|html?))$ / [R=301,END,NC]
+RewriteRule ^_app(?:/|$) - [R=404,END]
+RewriteRule ^ index.php [END]

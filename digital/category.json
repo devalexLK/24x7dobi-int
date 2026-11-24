@@ -1,0 +1,9 @@
+{
+  "name": "Digital and AI",
+  "icon": "AI",
+  "priority": 12,
+  "cta": {
+    "label": "Request assistance",
+    "service": "digital setup"
+  }
+}

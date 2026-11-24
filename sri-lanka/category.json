@@ -1,0 +1,9 @@
+{
+  "name": "Everyday Sri Lanka",
+  "icon": "LK",
+  "priority": 16,
+  "cta": {
+    "label": "Request assistance",
+    "service": "practical local assistance"
+  }
+}
